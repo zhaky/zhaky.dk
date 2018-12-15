@@ -3,14 +3,11 @@
 
 <head>
     
-    <title>Zhaky.dk UNDER CONSTRUCTION</title>
+    <title id="pageTitle">Zhaky.dk UNDER CONSTRUCTION</title>
     
-<div id="foundation">
-
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- My CSS -->
-    <link rel="stylesheet" href="myCSS.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <!-- jQuery library -->
@@ -19,11 +16,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
-    <!-- Local style -->
-
-</div>
+    <!-- Content Mangement System script -->
+    <script src="cms.js"></script>
     
+    <!-- Local style -->
     <style>
         #contentArea {
             padding-top: 1em;
@@ -31,18 +27,9 @@
         }
     </style>
     
-    <script type="text/javascript">
-
-        function loadPage(fileName) {
-            var foundation = document.getElementById("foundation");
-            document.getElementById("contentArea").innerHTML="<object type='text/html' data='" + fileName + "'><p>Page could not be loaded. Maybe try a proper browser?</p></object>";
-        }
-
-    </script>
-    
 </head>
     
-<body>
+<body onload="javascript:changePage('contentArea','main.htm')">
     
 <div class="container-fluid">
     
@@ -52,16 +39,16 @@
         <div class="col">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <p onclick="loadPage('main.htm')" class="nav-link">Home</p>
+                        <a id="menuHome" onclick="changePage('contentArea','main.htm');setTitle('Zhaky\'s page UNDER CONSTRUCTION');" class="nav-link active">Home</a>
                     </li>
                     <li class="nav-item">
-                        <p onclick="loadPage('aboutMe.htm')" class="nav-link">About Me</p>
+                        <a id="menuAboutMe" onclick="changePage('contentArea','aboutMe.htm');setTitle('About the guy they called Zhaky');" class="nav-link">About Me</a>
                     </li>
                     <li class="nav-item">
-                        <a href="blog" class="nav-link">Blog</a>
+                        <a id="menuBlog" onclick="changePage('contentArea','blog.htm');setTitle('Things that occupy my head, space and time');" class="nav-link">Blog</a>
                     </li>
                     <li class="nav-item">
-                        <a href="project" class="nav-link">Projects</a>
+                        <a id="menuProjects" onclick="changePage('contentArea','projects.htm');setTitle('Zhaky\'s mad inventions and activites');" class="nav-link">Projects</a>
                     </li>
                 </ul>
         </div>
@@ -70,8 +57,6 @@
     <!-- CONTENT AREA -->
     
     <div class="row-xl-12" id="contentArea"></div>
-    
-    <p class="text-center" style="padding-bottom: 2em;">Use this <a href="https://www.w3schools.com/howto/howto_html_include.asp">https://www.w3schools.com/howto/howto_html_include.asp</a></p>
     
     <!-- FOOTER -->
     
