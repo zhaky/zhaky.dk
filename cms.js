@@ -1,12 +1,12 @@
-var setPageProperties = {
+var setPageProperties = { // This object keeps track of the menu buttons and ensures that the right pageTitle is displayed.
     
-    previous: "main",
+    previous: "main", // Keeps track of the page currently being displayed. Probably should be called current, but.. oh well
     
     main: function() {
         removeActive();
-        document.getElementById("menu_main").classList.add("active");
-        setTitle('Zhaky\'s page UNDER CONSTRUCTION');
-        setPageProperties.previous = "main";
+        document.getElementById("menu_main").classList.add("active"); // Sets the button to "active", so BS displays it correctly.
+        setTitle('Zhaky\'s page UNDER CONSTRUCTION'); // Sets the TitlePage of the page being visited
+        setPageProperties.previous = "main"; // Changes the "previous" value to the name of the current page
     },
     
     aboutMe: function() {
@@ -32,40 +32,40 @@ var setPageProperties = {
     
 };
 
-function removeActive() {
-    var activeElm, elmId, classStr;
-    elmId = "menu_" + setPageProperties.previous;
-    activeElm = document.getElementById(elmId);
-    classStr = activeElm.className;
-    classStr = classStr.replace("active", "");
-    activeElm.className = classStr;
+function removeActive() { // Removes the "active" class from the previous menu button
+    var activeElm, elmId, classStr; // The active button; The ID of the active button elm; The class of the active elm.
+    elmId = "menu_" + setPageProperties.previous; // Adds "menu_" to the elmID as this is only used for menu buttons anyway
+    activeElm = document.getElementById(elmId); // Get the elm of the active button
+    classStr = activeElm.className; // Get the entire string of the active button's class
+    classStr = classStr.replace("active", ""); // Replace the "active" part of the elm's class with nothing - remove "active"
+    activeElm.className = classStr; // Replace the current class of the elm with the new class, where "active" is removed
 }
 
-function changePage(id, file) {
+function changePage(id, file) { // Places a HTML file (file is the file dir and name) in the elm with "id"
 
-    var elm, xhttp, pageName, rmStr;
+    var elm, xhttp, pageName, rmStr; // The elm that needs content; XMLHttpRequest; dir and name of the .htm file; dir of the file.
     
-    pageName = file;
-    rmStr = pageName.slice(pageName.indexOf("."));
-    pageName = pageName.replace(rmStr, "");
-    setPageProperties[pageName]();
+    pageName = file; // Name of the file. At first it includes the dir
+    rmStr = pageName.slice(pageName.indexOf(".")); // Get the dir to the file
+    pageName = pageName.replace(rmStr, ""); // Remove the dir from the "file" string so only the name is left
+    setPageProperties[pageName](); // Calls a function in the setPageProperties object corresponding to the file name
     
-    elm = document.getElementById(id);
+    elm = document.getElementById(id); // Get the elm that needs the content of the file
     
-    xhttp = new XMLHttpRequest();
+    xhttp = new XMLHttpRequest(); // Initiate a XMLHttpRequest to get the file from the server
     
-    xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function() { // Ensures the DOM is ready to obtain content from the file
         if (this.readyState == 4) {
             if (this.status == 200) {elm.innerHTML = this.responseText;}
             if (this.status == 400) {elm.innerHTML = "The page was not found";}
         }
     }
     
-    xhttp.open("GET", file, true);
-    xhttp.send();
+    xhttp.open("GET", file, true); // Get the content of the file
+    xhttp.send(); // Send the content to the DOM
     
 }
 
-function setTitle(title) {
-    document.getElementById("page_title").innerHTML = title;
+function setTitle(title) { // Does just that: sets the title of the page
+    document.getElementById("page_title").innerHTML = title; // Replace the value of the page_title elm with the "title" param
 }
