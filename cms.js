@@ -1,3 +1,5 @@
+// PAGE MANAGER
+
 var setPageProperties = { // This object keeps track of the menu buttons and ensures that the right pageTitle is displayed.
     
     previous: "main", // Keeps track of the page currently being displayed. Probably should be called current, but.. oh well
@@ -69,3 +71,6 @@ function changePage(id, file) { // Places a HTML file (file is the file dir and 
 function setTitle(title) { // Does just that: sets the title of the page
     document.getElementById("page_title").innerHTML = title; // Replace the value of the page_title elm with the "title" param
 }
+
+// CONTENT MANAGER
+
