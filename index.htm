@@ -23,7 +23,7 @@
     
     <!-- Local style -->
     <style>
-        #content_area {
+        #main_content {
             padding-top: 1em;
             padding-bottom: 1em;
         }
@@ -31,7 +31,7 @@
     
 </head>
     
-<body onload="javascript:changePage('content_area','main.htm')">
+<body onload="javascript:changePage('main.htm')">
     
 <div class="container-fluid">
     
@@ -41,16 +41,16 @@
         <div class="col">
                 <ul class="nav nav-tabs d-flex justify-content-center">
                     <li class="nav-item">
-                        <a id="menu_main" onclick="changePage('content_area','main.htm')" class="nav-link">Home</a>
+                        <a id="menu_main" onclick="changePage('main.htm')" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a id="menu_about_me" onclick="changePage('content_area','aboutMe.htm')" class="nav-link">About Me</a>
+                        <a id="menu_aboutMe" onclick="changePage('aboutMe.htm')" class="nav-link">About Me</a>
                     </li>
                     <li class="nav-item">
-                        <a id="menu_blog" onclick="changePage('content_area','blog.htm')" class="nav-link">Blog</a>
+                        <a id="menu_blog" onclick="changePage('blog.htm')" class="nav-link">Blog</a>
                     </li>
                     <li class="nav-item">
-                        <a id="menu_projects" onclick="changePage('content_area','projects.htm')" class="nav-link">Projects</a>
+                        <a id="menu_projects" onclick="changePage('projects.htm')" class="nav-link">Projects</a>
                     </li>
                 </ul>
         </div>
@@ -58,7 +58,7 @@
     
     <!-- CONTENT AREA -->
     
-    <div class="row-xl-12" id="content_area"></div>
+    <div class="row-xl-12" id="main_content"></div>
     
     <!-- FOOTER -->
     

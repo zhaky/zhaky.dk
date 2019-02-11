@@ -1,60 +1,10 @@
-// PAGE MANAGER
+// CONTENT MANAGER
 
-var setPageProperties = { // This object keeps track of the menu buttons and ensures that the right pageTitle is displayed.
-    
-    previous: "main", // Keeps track of the page currently being displayed. Probably should be called current, but.. oh well
-    
-    main: function() {
-        removeActive();
-        document.getElementById("menu_main").classList.add("active"); // Sets the button to "active", so BS displays it correctly.
-        setTitle('Zhaky\'s page UNDER CONSTRUCTION'); // Sets the TitlePage of the page being visited
-        setPageProperties.previous = "main"; // Changes the "previous" value to the name of the current page
-    },
-    
-    aboutMe: function() {
-        removeActive();
-        document.getElementById("menu_about_me").classList.add("active");
-        setTitle('About the guy they called Zhaky');
-        setPageProperties.previous = "about_me";
-    },
-    
-    blog: function() {
-        removeActive();
-        document.getElementById("menu_blog").classList.add("active");
-        setTitle('Things that occupy my head, space and time');
-        setPageProperties.previous = "blog";
-    },
-    
-    projects: function() {
-        removeActive();
-        document.getElementById("menu_projects").classList.add("active");
-        setTitle('Zhaky\'s mad inventions and activites');
-        setPageProperties.previous = "projects";
-    }
-    
-};
+function addFileToElement(idOfElement, pathToFile) { // Places a HTML file (file is the file dir and name) in the elm with "id"
 
-function removeActive() { // Removes the "active" class from the previous menu button
-    var activeElm, elmId, classStr; // The active button; The ID of the active button elm; The class of the active elm.
-    elmId = "menu_" + setPageProperties.previous; // Adds "menu_" to the elmID as this is only used for menu buttons anyway
-    activeElm = document.getElementById(elmId); // Get the elm of the active button
-    classStr = activeElm.className; // Get the entire string of the active button's class
-    classStr = classStr.replace("active", ""); // Replace the "active" part of the elm's class with nothing - remove "active"
-    activeElm.className = classStr; // Replace the current class of the elm with the new class, where "active" is removed
-}
-
-function changePage(id, file) { // Places a HTML file (file is the file dir and name) in the elm with "id"
-
-    var elm, xhttp, pageName, rmStr; // The elm that needs content; XMLHttpRequest; dir and name of the .htm file; dir of the file.
+    var elm = document.getElementById(idOfElement); // Get the elm that needs the content of the file
     
-    pageName = file; // Name of the file. At first it includes the dir
-    rmStr = pageName.slice(pageName.indexOf(".")); // Get the dir to the file
-    pageName = pageName.replace(rmStr, ""); // Remove the dir from the "file" string so only the name is left
-    setPageProperties[pageName](); // Calls a function in the setPageProperties object corresponding to the file name
-    
-    elm = document.getElementById(id); // Get the elm that needs the content of the file
-    
-    xhttp = new XMLHttpRequest(); // Initiate a XMLHttpRequest to get the file from the server
+    var xhttp = new XMLHttpRequest(); // Initiate a XMLHttpRequest to get the file from the server
     
     xhttp.onreadystatechange = function() { // Ensures the DOM is ready to obtain content from the file
         if (this.readyState == 4) {
@@ -63,14 +13,76 @@ function changePage(id, file) { // Places a HTML file (file is the file dir and 
         }
     }
     
-    xhttp.open("GET", file, true); // Get the content of the file
+    xhttp.open("GET", pathToFile, true); // Get the content of the file
     xhttp.send(); // Send the content to the DOM
     
+}
+
+function getFileNameFromPath(pathToFile) { // Gets and returns the name of a file from the entire path to a file
+    var stringToRemove = pathToFile.slice(pathToFile.indexOf(".")); // Get the dir to the file
+    var fileName = pathToFile.replace(stringToRemove, ""); // Remove the dir from the "pathToFile" string so only the fileName is left
+    return fileName;
+}
+
+function getProjects() {
+    var projectContentArea = document.getElementById("projects_content");
+    console.log(projectContentArea);
+}
+
+// PAGE MANAGER
+
+function removeActive(activeElementID) { // Removes the "active" class from the currentPage menu button
+    var activeElement = document.getElementById(activeElementID); // Get the elm of the active button
+    var classString = activeElement.className; // Get the entire string of the active button's class
+    classString = classString.replace("active", ""); // Replace the "active" part of the elm's class with nothing - remove "active"
+    activeElement.className = classString; // Replace the current class of the elm with the new class, where "active" is removed
 }
 
 function setTitle(title) { // Does just that: sets the title of the page
     document.getElementById("page_title").innerHTML = title; // Replace the value of the page_title elm with the "title" param
 }
 
-// CONTENT MANAGER
+function setActive(pageName) { // Changes which menu button should be displayed as active
+    document.getElementById(pageName).classList.add("active"); // Sets the button to "active", so BS displays it correctly.
+}
 
+var pages = { // This object keeps track of the menu buttons and ensures that the right pageTitle is displayed.
+    
+    currentPage: "main", // Keeps track of the page currently being displayed
+    activeMenuID: "menu_main", // Keeps track of which menu-button is "active"
+    
+    changeActiveMenu: function(newMenuToBeActive) { // Removes "active" of one menu button and adds it to another
+        removeActive(pages.activeMenuID); // Remove "active" from the previously active menu button
+        setActive(newMenuToBeActive); // Add "active" to the newly pressed menu-button
+        pages.activeMenuID = newMenuToBeActive; // Note the new menu that is "active"
+        pages.currentPage = newMenuToBeActive.replace("menu_", ""); // Note the new page as being the current
+    },
+    
+    main: function() {
+        pages.changeActiveMenu("menu_main"); // Change the page to the page related to the pressed menu-button
+        setTitle('Zhaky\'s page UNDER CONSTRUCTION'); // Sets the TitlePage of the page being visited
+    },
+    
+    aboutMe: function() {
+        pages.changeActiveMenu("menu_aboutMe");
+        setTitle('About the guy they called Zhaky');
+    },
+    
+    blog: function() {
+        pages.changeActiveMenu("menu_blog");
+        setTitle('Things that occupy my head, space and time');
+    },
+    
+    projects: function() {
+        pages.changeActiveMenu("menu_projects");
+        setTitle('Zhaky\'s mad inventions and activites');
+        getProjects(); // Get files from projects
+    }
+    
+};
+
+function changePage(pathToPageFile) { // Changes the page in the main_content area element of the index file
+    var pageName = getFileNameFromPath(pathToPageFile); // Gets the fileName from the path string
+    addFileToElement('main_content', pathToPageFile); // Add content of the file to the element, which should be the page to the main_content area
+    pages[pageName](); // Calls a function in the pages object corresponding to the file name
+}
